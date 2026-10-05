@@ -336,10 +336,6 @@ function inputLn() {
   show();
 }
 
-  text = formatResult(Math.sqrt(value));
-  show();
-}
-
 /** 百分号键：加减时按左操作数的百分之几计算，乘除时直接转成小数。 */
 function inputPercent() {
   if (isError()) {
