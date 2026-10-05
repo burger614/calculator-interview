@@ -296,6 +296,10 @@ function inputSqrt() {
     show();
     return;
   }
+  text = formatResult(Math.sqrt(value));
+  show();
+}
+
   /** log 键：求当前显示数的常用对数（以10为底）。 */
 function inputLog() {
   if (isError()) {
@@ -691,8 +695,6 @@ LAYOUT.forEach(([label, kind]) => {
       inputLog();
     } else if (kind === 'ln') {
       inputLn();
-    }
-
     } else if (kind === 'reciprocal') {
       inputReciprocal();
     } else if (kind === 'percent') {
