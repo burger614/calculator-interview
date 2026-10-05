@@ -32,6 +32,19 @@ function log10(x) {
 }
 
 /**
+ * 自然对数 ln
+ * @param {number} x 输入数字
+ * @returns {number|string} 以e为底的对数，x≤0返回非法输入
+ */
+function ln(x) {
+  if (x <= 0) {
+    return "非法输入";
+  }
+  const res = Math.log(x);
+  return Number(res.toPrecision(10));
+}
+
+/**
  * 10的x次方
  * @param {number} x 指数
  * @returns {number} 10^x计算结果
@@ -283,6 +296,41 @@ function inputSqrt() {
     show();
     return;
   }
+  /** log 键：求当前显示数的常用对数（以10为底）。 */
+function inputLog() {
+  if (isError()) {
+    return;
+  }
+  canRepeat = false; // 一元运算改变了当前数，连算资格作废
+  const value = Number(text);
+  if (value <= 0) {
+    text = ERROR_TEXT;
+    clearState();
+    showSub('');
+    show();
+    return;
+  }
+  text = formatResult(log10(value));
+  show();
+}
+
+/** ln 键：求当前显示数的自然对数（以e为底）。 */
+function inputLn() {
+  if (isError()) {
+    return;
+  }
+  canRepeat = false; // 一元运算改变了当前数，连算资格作废
+  const value = Number(text);
+  if (value <= 0) {
+    text = ERROR_TEXT;
+    clearState();
+    showSub('');
+    show();
+    return;
+  }
+  text = formatResult(ln(value));
+  show();
+}
 
   text = formatResult(Math.sqrt(value));
   show();
@@ -577,6 +625,8 @@ const LAYOUT = [
   ['.', 'decimal'], ['⌫', 'backspace'], ['CE', 'clearEntry'], ['√', 'sqrt'],
   ['x²', 'square'],
   ['1/x', 'reciprocal'],
+  ['log', 'log'],
+  ['ln', 'ln'],
   ['π', 'pi'],
   ['(', 'lparen'], [')', 'rparen'], // #43 新增：末行整行放左右括号
   ['复制', 'copy'],
@@ -601,6 +651,8 @@ const KEY_CLASS = {
   percent: 'key--action',
   plusMinus: 'key--action',
   reciprocal: 'key--action',
+  log: 'key--action',
+  ln: 'key--action',
   pi: 'key--action',
   lparen: 'key--action', // #43 新增
   rparen: 'key--action',
@@ -635,6 +687,12 @@ LAYOUT.forEach(([label, kind]) => {
       inputSqrt();
     } else if (kind === 'square') {
       inputSquare();
+    } else if (kind === 'log') {
+      inputLog();
+    } else if (kind === 'ln') {
+      inputLn();
+    }
+
     } else if (kind === 'reciprocal') {
       inputReciprocal();
     } else if (kind === 'percent') {
